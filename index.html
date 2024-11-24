@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
+<!-- 連接CSS -->
+<link rel="stylesheet" href="style.css">
+
+<!-- 在結尾連接JavaScript -->
+<script src="script.js"></script>
 
 <head>
     <meta charset="UTF-8">
@@ -8,81 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&display=swap" rel="stylesheet">
     <link rel="icon" href="picture/2.jpg" type="image/ico">
     <title>劉家開心農場</title>
-    <style>
-        body {
-            font-family: 'Noto Sans JP', sans-serif;
-        }
-
-        .navbar {
-            padding: 1rem 5%;
-            background-color: #f8f9fa;
-        }
-
-        .navbar-brand img {
-            width: 50px;
-            height: auto;
-        }
-
-        .jumbotron {
-            padding: 4rem 1rem;
-            color: #fff;
-            text-align: center;
-            background-image: url("picture/1.jpg");
-            background-size: cover;
-            background-position: center;
-        }
-
-        .jumbotron h1,
-        .jumbotron p {
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-        }
-
-        .jumbotron hr {
-            border-color: #fff;
-        }
-
-        .section-title {
-            margin: 2rem 0;
-            text-align: center;
-            color: midnightblue;
-        }
-
-        .card {
-            margin-bottom: 2rem;
-            border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .card img {
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .card-body {
-            text-align: center;
-        }
-
-        .card-body p:first-child {
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        footer {
-            padding: 2rem 1rem;
-            text-align: center;
-            background-color: #343a40;
-            color: #fff;
-        }
-
-        footer a {
-            color: #ffc107;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-    </style>
+    
 </head>
 
 <body>
@@ -98,19 +29,56 @@
                     <li class="nav-item"><a class="nav-link" href="#">主頁</a></li>
                     <li class="nav-item"><a class="nav-link" href="#About">關於</a></li>
                     <li class="nav-item"><a class="nav-link" href="#Product">產品</a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://docs.google.com/forms/d/1PYFhLSSES32zbBlJ5QqmIJRLl-U1t2y_xMF2Pp3OPSQ/edit">聯絡我們</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://docs.google.com/forms/d/1PYFhLSSES32zbBlJ5QqmIJRLl-U1t2y_xMF2Pp3OPSQ/edit">聯絡我們</a></li>                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#cartModal" onclick="updateCartDisplay()">
+                            <img src="picture/add-to-cart.png" alt=""">
+                        </a>
+                    </li>
+                                     
                 </ul>
             </div>
         </div>
     </nav>
 
+
     <!-- Jumbotron區塊 -->
-    <div class="jumbotron">
+    <div class="jumbotron" >
         <h1>農場簡介</h1>
         <p class="lead">Liu Farm</p>
         <hr>
         <p>農場不使用化學農藥，草木共生採用草生栽培，自製微生物液肥，生物防治病蟲。</p>
     </div>
+
+    <div id="cartModal" class="modal fade" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">購物車清單</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>商品名稱</th>
+                                <th>數量</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cartList">
+                            <!-- 這裡的內容將由 JavaScript 動態填充 -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
 
    
    <!-- 產品區塊 -->
@@ -130,16 +98,19 @@
                             <li>有助血糖控制</li>
                             <li>益生元有益腸道健康</li>
                         </ul>
+                        <!-- 商品價格顯示 -->
+                        <h5 class="card-text"><strong>價格:</strong> NT$ 40/顆</h5>
                         <!-- 數量調整，置中 -->
                         <div class="d-flex justify-content-center align-items-center mt-3">
-                            <button class="btn btn-outline-primary btn-sm" onclick="decrement('dragonFruitQty')">-</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('dragonFruitQty', -1)">-</button>
                             <span id="dragonFruitQty" class="mx-3">0</span>
-                            <button class="btn btn-outline-primary btn-sm" onclick="increment('dragonFruitQty')">+</button>
-                        </div>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('dragonFruitQty', 1)">+</button>
+                        </div>                        
+                    </div>
+                    <button class="btn btn-success btn-sm" onclick="addToCart('火龍果', 'dragonFruitQty')">加入購物車</button>
                 </div>
-                <button class="btn btn-success btn-sm" onclick="addToCart('火龍果', dragonFruitQty.textContent)">加入購物車</button>
             </div>
-            </div>
+
         
             <!-- 卡片: 紅心芭樂 -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
@@ -152,14 +123,17 @@
                             <li>提升免疫力、預防癌症</li>
                             <li>鞏固視力</li>
                         </ul>
+                        <!-- 商品價格顯示 -->
+                        <h5 class="card-text"><strong>價格:</strong> NT$ 60/台斤</h5>
                         <!-- 數量調整，置中 -->
+                        
                         <div class="d-flex justify-content-center align-items-center mt-3">
-                            <button class="btn btn-outline-primary btn-sm" onclick="decrement('guavaQty')">-</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('guavaQty', -1)">-</button>
                             <span id="guavaQty" class="mx-3">0</span>
-                            <button class="btn btn-outline-primary btn-sm" onclick="increment('guavaQty')">+</button>
-                        </div>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('guavaQty', 1)">+</button>
+                        </div>    
                     </div>
-                    <button class="btn btn-success btn-sm" onclick="addToCart('紅心芭樂', dragonFruitQty.textContent)">加入購物車</button>
+                    <button class="btn btn-success btn-sm" onclick="addToCart('紅心芭樂','guavaQty')">加入購物車</button>
                 </div>
             </div>
 
@@ -174,14 +148,16 @@
                             <li>護膚抗老</li>
                             <li>茄紅素抗癌</li>
                         </ul>
+                        <!-- 商品價格顯示 -->
+                        <h5 class="card-text"><strong>價格:</strong> NT$ 57/台斤</h5>
                         <!-- 數量調整，置中 -->
                         <div class="d-flex justify-content-center align-items-center mt-3">
-                            <button class="btn btn-outline-primary btn-sm" onclick="decrement('papayaQty')">-</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('papayaQty', -1)">-</button>
                             <span id="papayaQty" class="mx-3">0</span>
-                            <button class="btn btn-outline-primary btn-sm" onclick="increment('papayaQty')">+</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('papayaQty', 1)">+</button>
                         </div>
                     </div>
-                    <button class="btn btn-success btn-sm" onclick="addToCart('木瓜', dragonFruitQty.textContent)">加入購物車</button>
+                    <button class="btn btn-success btn-sm" onclick="addToCart('木瓜', 'papayaQty')">加入購物車</button>
                 </div>
             </div>
 
@@ -196,20 +172,22 @@
                             <li>通便潤腸</li>
                             <li>降血壓</li>
                         </ul>
+                        <!-- 商品價格顯示 -->
+                        <h5 class="card-text"><strong>價格:</strong> NT$ 55/台斤</h5>
                         <!-- 數量調整，置中 -->
                         <div class="d-flex justify-content-center align-items-center mt-3">
-                            <button class="btn btn-outline-primary btn-sm" onclick="decrement('bananaQty')">-</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('bananaQty', -1)">-</button>
                             <span id="bananaQty" class="mx-3">0</span>
-                            <button class="btn btn-outline-primary btn-sm" onclick="increment('bananaQty')">+</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('bananaQty', 1)">+</button>
                         </div>
                     </div>
-                    <button class="btn btn-success btn-sm" onclick="addToCart('芭蕉', dragonFruitQty.textContent)">加入購物車</button>
+                    <button class="btn btn-success btn-sm" onclick="addToCart('芭蕉', 'bananaQty')">加入購物車</button>
                 </div>
             </div>
             <!-- 卡片:檸檬 -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <div class="card h-100">
-                    <img src="picture/7.jpg" class="card-img-top" alt="鳳梨">
+                    <img src="picture/7.jpg" class="card-img-top" alt="檸檬">
                     <div class="card-body">
                         <h5 class="card-title">檸檬</h5>
                         <ul class="list-unstyled">
@@ -217,35 +195,39 @@
                             <li>3.幫助消化</li>
                             <li>4.改善骨質疏鬆</li>
                         </ul>
+                        <!-- 商品價格顯示 -->
+                        <h5 class="card-text"><strong>價格:</strong> NT$ 57/公斤</h5>
                         <!-- 數量調整，置中 -->
                         <div class="d-flex justify-content-center align-items-center mt-3">
-                            <button class="btn btn-outline-primary btn-sm" onclick="decrement('lemonQty')">-</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('lemonQty', -1)">-</button>
                             <span id="lemonQty" class="mx-3">0</span>
-                            <button class="btn btn-outline-primary btn-sm" onclick="increment('lemonQty')">+</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('lemonQty', 1)">+</button>
                         </div>
                     </div>
-                    <button class="btn btn-success btn-sm" onclick="addToCart('檸檬', dragonFruitQty.textContent)">加入購物車</button>
+                    <button class="btn btn-success btn-sm" onclick="addToCart('檸檬', 'lemonQty')">加入購物車</button>
                 </div>
             </div>
             <!-- 卡片: 棗子 -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <div class="card h-100">
-                    <img src="picture/8.jpg" class="card-img-top" alt="奇異果">
+                    <img src="picture/8.jpg" class="card-img-top" alt="棗子">
                     <div class="card-body">
-                        <h5 class="card-title">奇異果</h5>
+                        <h5 class="card-title">棗子</h5>
                         <ul class="list-unstyled">
                             <li>增強免疫力C</li>
                             <li>預防高血壓</li>
                             <li>改善缺鐵性貧血</li>
                         </ul>
+                        <!-- 商品價格顯示 -->
+                        <h5 class="card-text"><strong>價格:</strong> NT$ 103/公斤</h5>
                         <!-- 數量調整，置中 -->
                         <div class="d-flex justify-content-center align-items-center mt-3">
-                            <button class="btn btn-outline-primary btn-sm" onclick="decrement('datesQty')">-</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('datesQty', -1)">-</button>
                             <span id="datesQty" class="mx-3">0</span>
-                            <button class="btn btn-outline-primary btn-sm" onclick="increment('datesQty')">+</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('datesQty', 1)">+</button>
                         </div>
                     </div>
-                    <button class="btn btn-success btn-sm" onclick="addToCart('奇異果', dragonFruitQty.textContent)">加入購物車</button>
+                    <button class="btn btn-success btn-sm" onclick="addToCart('棗子', 'datesQty')">加入購物車</button>
                 </div>
             </div>
             <!-- 卡片: 釋迦 -->
@@ -259,17 +241,19 @@
                             <li>促進皮膚健康</li>
                             <li>抗氧化防癌</li>
                         </ul>
+                        <!-- 商品價格顯示 -->
+                        <h5 class="card-text"><strong>價格:</strong> NT$ 67/公斤</h5>
                         <!-- 數量調整，置中 -->
                         <div class="d-flex justify-content-center align-items-center mt-3">
-                            <button class="btn btn-outline-primary btn-sm" onclick="decrement('atemoyaQty')">-</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('atemoyaQty', -1)">-</button>
                             <span id="atemoyaQty" class="mx-3">0</span>
-                            <button class="btn btn-outline-primary btn-sm" onclick="increment('atemoyaQty')">+</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('atemoyaQty', 1)">+</button>
                         </div>
                     </div>
-                    <button class="btn btn-success btn-sm" onclick="addToCart('釋迦', dragonFruitQty.textContent)">加入購物車</button>
+                    <button class="btn btn-success btn-sm" onclick="addToCart('釋迦', 'atemoyaQty')">加入購物車</button>
                 </div>
             </div>
-            <!-- 卡片: 芒果 -->
+            <!-- 卡片: 芒果 -
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <div class="card h-100">
                     <img src="picture/10.jpg" class="card-img-top" alt="柿子">
@@ -280,44 +264,44 @@
                             <li>降低血壓</li>
                             <li>防治高血壓</li>
                         </ul>
-                        <!-- 數量調整，置中 -->
+                        <!-- 數量調整，置中 
                         <div class="d-flex justify-content-center align-items-center mt-3">
                             <button class="btn btn-outline-primary btn-sm" onclick="decrement('mangoQty')">-</button>
                             <span id="mangoQty" class="mx-3">0</span>
                             <button class="btn btn-outline-primary btn-sm" onclick="increment('mangoQty')">+</button>
                         </div>
                     </div>
-                    <button class="btn btn-success btn-sm" onclick="addToCart('芒果', dragonFruitQty.textContent)">加入購物車</button>
+                    <button class="btn btn-success btn-sm" onclick="addToCart('芒果', mangoQty.textContent)">加入購物車</button>
                 </div>
             </div>
         </div>
    
         <h3 class="subheading text-center mb-4">蔬菜</h3>
         <hr>
-        <div class="row">
+        <div class="row">-->
+
             <!-- 卡片: 菜瓜 -->
             <div class="col-12 col-sm-6 col-md-3 mb-4">
                 <div class="card h-100">
                     <img src="picture/11.jpg" class="card-img-top" alt="菜瓜">
                     <div class="card-body">
-                        <h5 class="card-title">菜瓜</h5>
-                        <p class="card-text"><strong>功效:</strong></p>
+                        <h5 class="card-title">菜瓜</h5>                        
                         <ul class="list-unstyled">
-                            <li>1. 解毒通便</li>
-                            <li>2. 祛風化痰</li>
-                            <li>3. 潤肌美容</li>
-                            <li>4. 通經絡</li>
-                            <li>5. 行血脈</li>
-                            <li>6. 調理月經不順</li>
+                            <li>解毒通便</li>
+                            <li>祛風化痰</li>
+                            <li>潤肌美容</li>
+                            <li>通經絡、行血脈</li>                                                
                         </ul>
+                        <!-- 商品價格顯示 -->
+                        <h5 class="card-text"><strong>價格:</strong> NT$ 55/顆</h5>
                         <!-- 數量調整，置中 -->
                         <div class="d-flex justify-content-center align-items-center mt-3">
-                            <button class="btn btn-outline-primary btn-sm" onclick="decrement('snake melonQty')">-</button>
-                            <span id="snake melonQty" class="mx-3">0</span>
-                            <button class="btn btn-outline-primary btn-sm" onclick="increment('snake melonQty')">+</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('snakemelonQty', -1)">-</button>
+                            <span id="snakemelonQty" class="mx-3">0</span>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('snakemelonQty', 1)">+</button>
                         </div>
                     </div>
-                    <button class="btn btn-success btn-sm" onclick="addToCart('菜瓜', dragonFruitQty.textContent)">加入購物車</button>
+                    <button class="btn btn-success btn-sm" onclick="addToCart('菜瓜', 'snakemelonQty')">加入購物車</button>
                 </div>
             </div>
             <!-- 卡片: 空心菜 -->
@@ -325,22 +309,23 @@
                 <div class="card h-100">
                     <img src="picture/12.jpg" class="card-img-top" alt="空心菜">
                     <div class="card-body">
-                        <h5 class="card-title">空心菜</h5>
-                        <p class="card-text"><strong>功效:</strong></p>
+                        <h5 class="card-title">空心菜</h5>                    
                         <ul class="list-unstyled">
-                            <li>1. 防癌抗癌</li>
-                            <li>2. 降脂減肥</li>
-                            <li>3. 美容養顏</li>
-                            <li>4. 涼血解熱</li>
+                            <li>防癌抗癌</li>
+                            <li>降脂減肥</li>
+                            <li>美容養顏</li>
+                            <li>涼血解熱</li>
                         </ul>
+                        <!-- 商品價格顯示 -->
+                        <h5 class="card-text"><strong>價格:</strong> NT$ 49/把</h5>
                         <!-- 數量調整，置中 -->
                         <div class="d-flex justify-content-center align-items-center mt-3">
-                            <button class="btn btn-outline-primary btn-sm" onclick="decrement('water spinachQty')">-</button>
-                            <span id="water spinachQty" class="mx-3">0</span>
-                            <button class="btn btn-outline-primary btn-sm" onclick="increment('water spinachQty')">+</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('waterspinachQty', -1)">-</button>
+                            <span id="waterspinachQty" class="mx-3">0</span>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('waterspinachQty', 1)">+</button>
                         </div>
                     </div>
-                    <button class="btn btn-success btn-sm" onclick="addToCart('空心菜', dragonFruitQty.textContent)">加入購物車</button>
+                    <button class="btn btn-success btn-sm" onclick="addToCart('空心菜', 'waterspinachQty')">加入購物車</button>
                 </div>
             </div>
             <!-- 卡片: 地瓜葉 -->
@@ -349,21 +334,23 @@
                     <img src="picture/13.jpg" class="card-img-top" alt="地瓜葉">
                     <div class="card-body">
                         <h5 class="card-title">地瓜葉</h5>
-                        <p class="card-text"><strong>功效:</strong></p>
+                        
                         <ul class="list-unstyled">
-                            <li>1. 高纖、解便祕</li>
-                            <li>2. 能補鈣、補鎂</li>
-                            <li>3. 養胎、解孕吐</li>
-                            <li>4. 護眼、抗氧化</li>
+                            <li> 高纖、解便祕</li>
+                            <li>能補鈣、補鎂</li>
+                            <li>養胎、解孕吐</li>
+                            <li>護眼、抗氧化</li>
                         </ul>
+                        <!-- 商品價格顯示 -->
+                        <h5 class="card-text"><strong>價格:</strong> NT$ 39/把</h5>
                         <!-- 數量調整，置中 -->
                         <div class="d-flex justify-content-center align-items-center mt-3">
-                            <button class="btn btn-outline-primary btn-sm" onclick="decrement('Sweet PotatoQty')">-</button>
-                            <span id="Sweet PotatoQty" class="mx-3">0</span>
-                            <button class="btn btn-outline-primary btn-sm" onclick="increment('Sweet PotatoQty')">+</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('SweetPotatoQty', -1)">-</button>
+                            <span id="SweetPotatoQty" class="mx-3">0</span>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('SweetPotatoQty', 1)">+</button>
                         </div>
                     </div>
-                    <button class="btn btn-success btn-sm" onclick="addToCart('地瓜葉', dragonFruitQty.textContent)">加入購物車</button>
+                    <button class="btn btn-success btn-sm" onclick="addToCart('地瓜葉', 'SweetPotatoQty')">加入購物車</button>
                 </div>
             </div>
             <!-- 卡片: 高麗菜 -->
@@ -371,63 +358,31 @@
                 <div class="card h-100">
                     <img src="picture/14.jpg" class="card-img-top" alt="高麗菜">
                     <div class="card-body">
-                        <h5 class="card-title">高麗菜</h5>
-                        <p class="card-text"><strong>功效:</strong></p>
+                        <h5 class="card-title"><b>高麗菜</b></h5>                       
                         <ul class="list-unstyled">
-                            <li>1. 保護心血管</li>
-                            <li>2. 預防骨質疏鬆</li>
-                            <li>3. 改善腸胃問題</li>
-                            <li>4. 抗老、美白</li>
-                            <li>5. 預防癌症</li>
-                            <li>6. 調節血糖</li>
+                            <li>保護心血管</li>
+                            <li>預防骨質疏鬆</li>
+                            <li>改善腸胃問題</li>                                                    
+                            <li>調節血糖</li>
                         </ul>
+                        <!-- 商品價格顯示 -->
+                        <p class="card-text"><strong>價格:</strong> NT$ 56</p>
                         <!-- 數量調整，置中 -->
                         <div class="d-flex justify-content-center align-items-center mt-3">
-                            <button class="btn btn-outline-primary btn-sm" onclick="decrement('cabbageQty')">-</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('cabbageQty', -1)">-</button>
                             <span id="cabbageQty" class="mx-3">0</span>
-                            <button class="btn btn-outline-primary btn-sm" onclick="increment('cabbageQty')">+</button>
+                            <button class="btn btn-outline-primary btn-sm" onclick="updateQuantity('cabbageQty', 1)">+</button>
                         </div>
                     </div>
-                    <button class="btn btn-success btn-sm" onclick="addToCart('高麗菜', dragonFruitQty.textContent)">加入購物車</button>
+                    <button class="btn btn-success btn-sm" onclick="addToCart('高麗菜', 'cabbageQty')">加入購物車</button>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
-<!-- 購物車數字-->
-<script>
-    function increment(id) {
-        const quantityElement = document.getElementById(id);
-        let currentQty = parseInt(quantityElement.textContent);
-        quantityElement.textContent = currentQty + 1;
-    }
 
-    function decrement(id) {
-        const quantityElement = document.getElementById(id);
-        let currentQty = parseInt(quantityElement.textContent);
-        if (currentQty > 0) {
-            quantityElement.textContent = currentQty - 1;
-        }
-    }
-    const cart = [];
 
-function addToCart(itemName, quantity) {
-    quantity = parseInt(quantity);
-    if (quantity > 0) {
-        const existingItem = cart.find(item => item.name === itemName);
-        if (existingItem) {
-            existingItem.quantity += quantity;
-        } else {
-            cart.push({ name: itemName, quantity });
-        }
-        alert(`${itemName} 已加入購物車，數量: ${quantity}`);
-        console.log(cart); // 方便測試時查看購物車內容
-    } else {
-        alert('請選擇數量後再加入購物車！');
-    }
-}
-
-</script>
 
 
 
